@@ -1,57 +1,96 @@
-Penulis: [nama_penulis](link_twt)
+Penulis: [Naufal](https://x.com/0xfal)
 
-# Pengenalan
-Bab ini berisi pengenalan mengenai nama_project
-
-## Nama_Project
 > [!NOTE]
-> berikan_description_singkat_mengenai_project_tersebut
+> **WHAT IS Miden?**\
+> TBD.
 
-### Investor
-taroh_img_investor_jika_ada
+# Tutorial Miden Node
 
-# Tutorial XXX
-Bab ini berisi tutorial cara menjalankan XXX
+## 1. Prerequisites
 
-## Requirement
-Syarat menjalankan XXX
-- Spek Komputer
-  
-| Name | Minimum |
-| ------------- | ------------- |
-| Operating System  | OS_NAME  |
-| CPU  | X Cores  |
-| RAM  | X GB  |
-| SSD  | XX GB  |
-- item_2_dan_seterusnya_jika_ada
+- [Cara terhubung ke VPS](https://github.com/ZuperHunt/Connect-to-VPS)
 
-> [!TIP]
-> Kami menggunakan Digital Ocean dengan speksifikasi `XX/ X Core/ X GB RAM/ XX GB SSD`. Jika kamu membutuhkan VPS, kami memiliki link gratis credit VPS DigitalOcean sebesar $200. Cukup untuk menjalankan XXX selama XX . Daftar sekarang dengan [link utama](link_reff_do_kamu) / [link cadangan](link_reff_do_2_kamu) untuk mendapatkannya.
-  
-## Dependencies
+## 2. Requirements
 
-### Install X 
+### Hardware
+
+| Part | Minimum | Recommended |
+| ------------- | ------------- | ------------- |
+| CPU | - | 2 cores |
+| RAM | - | 4 GB |
+| SSD | - | 50 GB |
+
+### Software
+
+| ✅ Linux | ✅ macOS | ✅ Windows (WSL) |
+| ------------- | ------------- | ------------- |
+
+> [!NOTE]
+> Tutorial ini dibuat menggunakan Linux (Ubuntu), untuk sistem operasi lainnya mungkin akan sedikit berbeda!
+
+## 3. Dependencies
+
+### 3.1 System Packages
+
 ```
-sudo apt-get install xxxx
-```
-
-## Menjalankan XXX
-
-### Run XXX
-```
-code blocks for commands
+sudo apt update && sudo apt upgrade -y
 ```
 
-## Help
+### 3.2 Install Rust
 
-Join komunitas [Discord ZuperHunt](https://t.co/n7TeWVlA48) jika kamu ada pertanyaan.
+Copy-paste, trus tinggal tekan enter aja.
 
-## Change Logs
+```
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+. "$HOME/.cargo/env"
+```
 
-* 0.0.1
-    * Initial Release
+### 3.3 Install Other Essential Packages
 
-## Acknowledgments
+```
+sudo apt install build-essential libsqlite3-dev clang pkg-config libssl-dev git-all
+```
 
-Referensi
-* [nama_referensi](link_referensi)
+## 4. Execution
+
+### 4.1 Create a Session
+
+Ubah `<SESSION_NAME>` menjadi terserahmu.
+
+```
+tmux new -s <SESSION_NAME>
+```
+
+### 4.2 Install the Node
+
+```
+cargo install miden-node --locked
+```
+
+### 4.3 Initializing the Node
+
+```
+miden-node store dump-genesis > genesis.toml
+mkdir -p data accounts
+miden-node bundled bootstrap \
+  --data-directory data \
+  --accounts-directory accounts \
+  --config genesis.toml
+```
+
+### 4.4 Starting the Node
+
+```
+miden-node bundled start \
+  --data-directory data \
+  --rpc.url http://0.0.0.0:57123
+```
+
+---
+
+Reach us if you have any question:\
+ZuperCollective's [Discord server](https://discord.gg/ZuperCollective) | [X(Twitter)](https://twitter.com/ZuperCollective)
+
+# Acknowledgements
+
+* [Miden Docs](https://github.com/0xMiden/miden-tutorials/tree/main/node)
